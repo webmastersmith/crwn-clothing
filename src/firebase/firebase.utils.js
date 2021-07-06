@@ -3,13 +3,20 @@ import "firebase/firestore";
 import "firebase/auth";
 
 const config = {
-  apiKey: "AIzaSyBchyW7yw_lpXBXrmxQca6BY3zZws4mrTM",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
   authDomain: "crwn-db-c21f9.firebaseapp.com",
   projectId: "crwn-db-c21f9",
   storageBucket: "crwn-db-c21f9.appspot.com",
   messagingSenderId: "1093944678784",
   appId: "1:1093944678784:web:7c84759c627f04973d8965",
   measurementId: "G-G62XTR2S1Y",
+};
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  console.log("firestore", firestore.doc("users/E78h3LKKoT9LfhHcFShK"));
+  // console.log(firestore.doc("/users/3LKKoT9LfhHcF"));
 };
 
 firebase.initializeApp(config);
