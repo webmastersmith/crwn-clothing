@@ -12,14 +12,25 @@ const config = {
   measurementId: "G-G62XTR2S1Y",
 };
 
+firebase.initializeApp(config);
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
-  console.log("firestore", firestore.doc("users/E78h3LKKoT9LfhHcFShK"));
-  // console.log(firestore.doc("/users/3LKKoT9LfhHcF"));
-};
+  // console.log("uid", userAuth.uid);
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  // const userRef = firestore.doc("users/E78h3LKKoT9LfhHcFShK");
+  const snapShot = await userRef.get();
 
-firebase.initializeApp(config);
+  console.log("userRef", JSON.stringify(userRef, null, 2));
+  console.log("snapShot", JSON.stringify(snapShot, null, 2));
+
+  if (!snapShot.exists) {
+    console.log("snapShot user exists!");
+  } else {
+    console.log("snapShot user not exist!");
+  }
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
