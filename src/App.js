@@ -18,24 +18,33 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
+    // the google sign in button returns an auth object -userAuth.
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      // add them to firestore data base.
+      // userAuth becomes null if logged out.
       if (userAuth) {
+        //check if in firestore, if not add them, then return userRef object (provides access into the firestore/users collection).
         const userRef = await createUserProfileDocument(userAuth)
-
+        //calls a listener and adds user to local state once in firestore, if sign-in changes, state will reflect that.  Like two different accounts log in on the same machine.
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data(),
+          this.setState(
+            {
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data(),
+              },
             },
-          })
+            () => console.log(this.state)
+          ) //end setState()
         }) //end onSnapshot
       } //end if
+      // if userAuth empty value will be null
       this.setState({ currentUser: userAuth })
-    }) //end onAuthStateChanged
-  }
+    }) //end onAuthStateChanged()
+  } //end componentDidMount()
 
   componentWillUnmount() {
+    //call the function to unmount
     this.unsubscribeFromAuth()
   }
 
