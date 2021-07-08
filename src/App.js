@@ -7,17 +7,15 @@ import Header from './components/header/header.component'
 import SignInAndSignUP from './pages/sign-in-sign-up/sign-in-and-sign-up.component'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentUser: null,
-    }
-  }
+//redux
+import { connect } from 'react-redux'
+import { setCurrentUser } from './redux/user/user.action'
 
+class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
+    const { setCurrentUser } = this.props
     // the google sign in button returns an auth object -userAuth.
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       // add them to firestore data base.
@@ -27,16 +25,14 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth)
         //calls a listener and adds user to local state once in firestore, if sign-in changes, state will reflect that.  Like two different accounts log in on the same machine.
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data(),
-            },
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
           }) //end setState()
         }) //end onSnapshot
       } //end if
       // if userAuth empty value will be null
-      this.setState({ currentUser: userAuth })
+      setCurrentUser(userAuth)
     }) //end onAuthStateChanged()
   } //end componentDidMount()
 
@@ -48,7 +44,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
@@ -59,4 +55,8 @@ class App extends React.Component {
   }
 }
 
-export default App
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+})
+
+export default connect(null, mapDispatchToProps)(App)
