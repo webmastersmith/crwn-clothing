@@ -27,15 +27,12 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth)
         //calls a listener and adds user to local state once in firestore, if sign-in changes, state will reflect that.  Like two different accounts log in on the same machine.
         userRef.onSnapshot((snapShot) => {
-          this.setState(
-            {
-              currentUser: {
-                id: snapShot.id,
-                ...snapShot.data(),
-              },
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
             },
-            () => console.log(this.state)
-          ) //end setState()
+          }) //end setState()
         }) //end onSnapshot
       } //end if
       // if userAuth empty value will be null
