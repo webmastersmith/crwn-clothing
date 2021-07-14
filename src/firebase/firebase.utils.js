@@ -2,17 +2,27 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-const config = {
-  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  projectId: process.env.REACT_APP_PROJECTID,
-  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-  appId: process.env.REACT_APP_APPID,
-  measurementId: process.env.REACT_APP_MEASUREMENTID,
+var firebaseConfig = {
+  apiKey: 'AIzaSyBchyW7yw_lpXBXrmxQca6BY3zZws4mrTM',
+  authDomain: 'crwn-db-c21f9.firebaseapp.com',
+  projectId: 'crwn-db-c21f9',
+  storageBucket: 'crwn-db-c21f9.appspot.com',
+  messagingSenderId: '1093944678784',
+  appId: '1:1093944678784:web:7c84759c627f04973d8965',
+  measurementId: 'G-G62XTR2S1Y',
 }
 
-firebase.initializeApp(config)
+// const config = {
+//   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+//   authDomain: process.env.REACT_APP_AUTHDOMAIN,
+//   projectId: process.env.REACT_APP_PROJECTID,
+//   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+//   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+//   appId: process.env.REACT_APP_APPID,
+//   measurementId: process.env.REACT_APP_MEASUREMENTID,
+// }
+
+firebase.initializeApp(firebaseConfig)
 
 // called in App.js. Purpose: add user to database if not already in there.
 export const createUserProfileDocument = async (userAuth, additionalData) => {
