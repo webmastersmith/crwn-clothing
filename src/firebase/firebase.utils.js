@@ -33,7 +33,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   // this is the userRef object that will get returned. It has methods attached to get or set properties to firestore.
   const userRef = firestore.doc(`users/${userAuth.uid}`)
 
-  // snapShot name is misleading.  Not truly a 'snapShot' just getting data one time. 'get' access to data method and if uid exist. This is seperated instead of chained to userRef because userRef get's returned to 'App.js' and a listener is called to watch data for any change. If user changes state, like if someone else log's in from same browser without this person loggin out first, state will reflect the new user.
+  // snapShot name is misleading.  Not truly a 'snapShot' just getting data one time. 'get' access to data method and if uid exist. The userRef obj is seperated instead of chained .get() to userRef because userRef obj is returned to 'App.js' and a listener is called to watch data for any change. If user changes state, like if someone else log's in from same browser without this person logging out first, state will be updated with the new user.
   const snapShot = await userRef.get()
 
   // if uid not in firestore, create document from info and set to firestore/users.
@@ -58,6 +58,25 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   // always return userRef to add to local state.
   return userRef
+}
+
+// get access to collection object. Firebase makes this object for us, then if we add documents to it, firebase will create them under the object.  'collections' object will not show in database untill it has documents in it.
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey)
+
+  // batch groups all data (upto 500 documents) for one big upload to firestore
+  const batch = firestore.batch()
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc() //tells firebase to ramdonly generate new id for document. If you give ().doc('someValue')) that will be the key, otherwise firestore will generate key.
+
+    //then upload newDocRef into batch object
+    batch.set(newDocRef, obj)
+  })
+  //returns
+  return await batch.commit()
 }
 
 export const auth = firebase.auth()

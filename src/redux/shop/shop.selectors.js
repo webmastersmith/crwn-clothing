@@ -13,6 +13,7 @@ export const selectCollectionsForPreview = createSelector(
   (collections) => Object.values(collections)
 )
 
+//memoize was used because 'createSelector' could not be called without passing in props.
 export const selectCollection = memoize((collectionUrlParams) =>
   createSelector(
     [selectCollections],
