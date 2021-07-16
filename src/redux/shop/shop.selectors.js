@@ -10,13 +10,12 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  (collections) => Object.values(collections)
+  (collections) => (collections ? Object.values(collections) : [])
 )
 
 //memoize was used because 'createSelector' could not be called without passing in props.
 export const selectCollection = memoize((collectionUrlParams) =>
-  createSelector(
-    [selectCollections],
-    (collections) => collections[collectionUrlParams]
+  createSelector([selectCollections], (collections) =>
+    collections ? collections[collectionUrlParams] : null
   )
 )
