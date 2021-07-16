@@ -1,8 +1,10 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { Route } from 'react-router-dom'
 
-import { firestore } from '../../firebase/firebase.utils'
+import {
+  firestore,
+  convertCollectionSnapshotToMap,
+} from '../../firebase/firebase.utils'
 
 import CollectionsOverview from '../../components/collections-overview/collections-overview.components'
 import CollectionPage from '../collection/collection.component'
@@ -16,7 +18,8 @@ class ShopPage extends React.Component {
     //get initial collectionRef object.
     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
       async (snapShot) => {
-        console.log('snapShot', snapShot)
+        const collectionsMap = convertCollectionSnapshotToMap(snapShot)
+        console.log('collectionsMap', collectionsMap)
       }
     )
   }
