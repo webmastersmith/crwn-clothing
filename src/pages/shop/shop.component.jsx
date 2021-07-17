@@ -19,27 +19,25 @@ const CollectionsPageWithSpinner = WithSpinner(CollectionPage)
 
 class ShopPage extends React.Component {
   state = { isLoading: true }
-  unsubscribeFromSnapshot = null
+  // unsubscribeFromSnapshot = null
 
   componentDidMount() {
     const { updateCollections } = this.props
     //initialize object
     const collectionRef = firestore.collection('collections')
     //set up listener, get initial collectionRef object.
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-      async (snapShot) => {
-        const collectionsMap = convertCollectionSnapshotToMap(snapShot)
-        updateCollections(collectionsMap)
-        this.setState({ isLoading: false })
-        console.log('collectionsMap', collectionsMap)
-      }
-    )
+    // this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+    collectionRef.get().then((snapShot) => {
+      const collectionsMap = convertCollectionSnapshotToMap(snapShot)
+      updateCollections(collectionsMap)
+      this.setState({ isLoading: false })
+    })
   }
 
-  componentWillUnmount() {
-    //removes listener from database.
-    this.unsubscribeFromSnapshot()
-  }
+  // componentWillUnmount() {
+  //   //removes listener from database.
+  //   this.unsubscribeFromSnapshot()
+  // }
 
   render() {
     const { match } = this.props
