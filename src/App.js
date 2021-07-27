@@ -12,7 +12,6 @@ import SignInAndSignUP from './pages/sign-in-sign-up/sign-in-and-sign-up.compone
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectCurrentUser } from './redux/user/user.selectors'
-import { setCurrentUser } from './redux/user/user.action'
 
 class App extends React.Component {
   // unsubscribeFromAuth = null
@@ -69,8 +68,4 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)
