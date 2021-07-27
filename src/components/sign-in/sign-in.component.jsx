@@ -57,7 +57,6 @@ class SignIn extends React.Component {
 
           <div className="buttons">
             <CustomButton type="submit">sign in</CustomButton>
-            {/* Google popup ask there info */}
             <CustomButton
               onClick={googleSignInStart}
               isGoogleSignIn
