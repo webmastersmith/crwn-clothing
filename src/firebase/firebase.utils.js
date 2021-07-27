@@ -12,16 +12,6 @@ var firebaseConfig = {
   measurementId: 'G-G62XTR2S1Y',
 }
 
-// const config = {
-//   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
-//   authDomain: process.env.REACT_APP_AUTHDOMAIN,
-//   projectId: process.env.REACT_APP_PROJECTID,
-//   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-//   appId: process.env.REACT_APP_APPID,
-//   measurementId: process.env.REACT_APP_MEASUREMENTID,
-// }
-
 firebase.initializeApp(firebaseConfig)
 
 // called in App.js. Purpose: add user to database if not already in there.
@@ -99,9 +89,9 @@ export const convertCollectionSnapshotToMap = (collections) => {
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({ prompt: 'select_account' })
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: 'select_account' })
 // will return auth object w/ uid or null if user not logged in
-export const signInWithGoogle = () => auth.signInWithPopup(provider)
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
 
 export default firebase
