@@ -5,7 +5,7 @@ import CustomButton from '../custom-button/custom-button.component'
 // import md5 from '../../scripts/md5'
 
 import { connect } from 'react-redux'
-import { signUpStart } from '../../redux/sign-up/sign-up.action'
+import { signUpStart } from '../../redux/user/user.action'
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -29,23 +29,6 @@ class SignUp extends React.Component {
       return
     }
     signUpStart(displayName, email, password)
-    // try {
-    //   const { user } = await auth.createUserWithEmailAndPassword(
-    //     email,
-    //     password
-    //   )
-
-    //   await createUserProfileDocument(user, { displayName })
-
-    //   this.setState({
-    //     displayName: '',
-    //     email: '',
-    //     password: '',
-    //     confirmPassword: '',
-    //   })
-    // } catch (e) {
-    //   console.log('createUserWithEmailAndPassword Error:', e.message)
-    // }
   }
   handleChange = (e) => {
     const { name, value } = e.target
@@ -104,6 +87,6 @@ class SignUp extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   signUpStart: (displayName, email, password) =>
-    dispatch(signUpStart(displayName, email, password)),
+    dispatch(signUpStart({ displayName, email, password })),
 })
 export default connect(null, mapDispatchToProps)(SignUp)
