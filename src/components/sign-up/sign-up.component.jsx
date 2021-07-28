@@ -2,8 +2,10 @@ import React from 'react'
 import './sign-up.styles.scss'
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
 // import md5 from '../../scripts/md5'
+
+import { connect } from 'react-redux'
+import { signUpStart } from '../../redux/sign-up/sign-up.action'
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -20,29 +22,30 @@ class SignUp extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     const { displayName, email, password, confirmPassword } = this.state
+    const { signUpStart } = this.props
 
     if (password.length < 6 && password !== confirmPassword) {
       alert('password problem')
       return
     }
+    signUpStart(displayName, email, password)
+    // try {
+    //   const { user } = await auth.createUserWithEmailAndPassword(
+    //     email,
+    //     password
+    //   )
 
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      )
+    //   await createUserProfileDocument(user, { displayName })
 
-      await createUserProfileDocument(user, { displayName })
-
-      this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      })
-    } catch (e) {
-      console.log('createUserWithEmailAndPassword Error:', e.message)
-    }
+    //   this.setState({
+    //     displayName: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: '',
+    //   })
+    // } catch (e) {
+    //   console.log('createUserWithEmailAndPassword Error:', e.message)
+    // }
   }
   handleChange = (e) => {
     const { name, value } = e.target
@@ -99,4 +102,8 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (displayName, email, password) =>
+    dispatch(signUpStart(displayName, email, password)),
+})
+export default connect(null, mapDispatchToProps)(SignUp)
