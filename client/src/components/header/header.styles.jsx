@@ -33,6 +33,11 @@ export const OptionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  @media screen and (max-width: 800px) {
+    width: auto;
+    white-space: nowrap;
+  }
 `
 export const OptionsDiv = styled.div`
   ${OptionContainerStyles}
