@@ -21,7 +21,7 @@ import {
 const Header = ({ signOutStart, currentUser, hidden }) => (
   <HeaderContainer>
     <LogoContainer to="/">
-      <Logo className="logo" />
+      <Logo className="logo" style={{ position: 'absolute' }} />
     </LogoContainer>
 
     <OptionsContainer>
