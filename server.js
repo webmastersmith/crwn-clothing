@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const compression = require('compression')
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
@@ -8,6 +9,7 @@ const port = process.env.PORT
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY) //imediately invoke with stripe key.
 
 //convert all incoming request 'body' tag to json. Simular to the way fetch you have to call '.json()' on it.
+app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
