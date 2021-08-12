@@ -14,6 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }))
   app.use(express.static(path.join(__dirname, 'client/build')))
   app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
@@ -23,6 +24,10 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(port, (error) => {
   if (error) throw error
   console.log('Server running on http://localhost:' + port)
+})
+
+app.get('/service-worker.js', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client/build', 'service-worker.js'))
 })
 
 //req object comes from the client.  res is what we send to client.
